@@ -1,0 +1,33 @@
+# --- IDE & System ---
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+
+# --- Backend (Java/Maven) ---
+# Ігноруємо результати збірки
+backend/target/
+target/
+
+# Логи та тимчасові файли
+*.log
+backend/*.log
+
+backend/backend.iml
+
+# --- Frontend (Node/React/Vite) ---
+node_modules/
+frontend/node_modules/
+
+dist/
+frontend/dist/
+build/
+
+frontend/frontend.iml
+.eslintcache
+
+*.local
+.env
+.env.local
+backend/src/main/resources/application-local.properties
