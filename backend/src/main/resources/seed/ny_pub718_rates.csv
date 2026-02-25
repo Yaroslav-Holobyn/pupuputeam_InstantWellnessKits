@@ -1,0 +1,75 @@
+Jurisdiction,Tax_Rate,Reporting_Code,Special_Zone
+Albany,8.0,0121,None
+Allegany,8.5,0221,None
+Broome,8.0,0321,None
+Cattaraugus,8.0,0421,None
+Olean (city),8.0,0421,City-Exception
+Salamanca (city),8.0,0421,City-Exception
+Cayuga,8.0,0521,None
+Auburn (city),8.0,0521,City-Exception
+Chautauqua,8.0,0621,None
+Chemung,8.0,0721,None
+Chenango,8.0,0861,None
+Norwich (city),8.0,0831,City-Exception
+Clinton,8.0,0921,None
+Columbia,8.0,1021,None
+Cortland,8.0,1131,None
+Delaware,8.0,1221,None
+*Dutchess,8.125,1311,MCTD
+Erie,8.75,1451,None
+Essex,8.0,1521,None
+Franklin,8.0,1621,None
+Fulton,8.0,1751,None
+Gloversville (city),8.0,1721,City-Exception
+Johnstown (city),8.0,1731,City-Exception
+Genesee,8.0,1821,None
+Greene,8.0,1921,None
+Hamilton,8.0,2021,None
+Herkimer,8.25,2121,None
+Jefferson,8.0,2221,None
+Lewis,8.0,2321,None
+Livingston,8.0,2421,None
+Madison,8.0,2521,None
+Monroe,8.0,2621,None
+Montgomery,8.0,2721,None
+*Nassau,8.625,2821,MCTD
+New York City,8.875,8081,MCTD
+Niagara,8.0,2911,None
+Oneida,8.75,3010,None
+Rome (city),8.75,3015,City-Exception
+Utica (city),8.75,3018,City-Exception
+Onondaga,8.0,3121,None
+Ontario,7.5,3211,None
+*Orange,8.125,3321,MCTD
+Orleans,8.0,3481,None
+Oswego,8.0,3561,None
+Oswego (city),8.0,3521,City-Exception
+Otsego,8.0,3621,None
+*Putnam,8.375,3721,MCTD
+Rensselaer,8.0,3821,None
+*Rockland,8.375,3921,MCTD
+St. Lawrence,8.0,4051,None
+Ogdensburg (city),8.0,4021,City-Exception
+Saratoga,7.0,4121,None
+Schenectady,8.0,4221,None
+Schoharie,8.0,4321,None
+Schuyler,8.0,4421,None
+Seneca,8.0,4521,None
+Steuben,8.0,4621,None
+*Suffolk,8.625,4721,MCTD
+Sullivan,8.0,4821,None
+Tioga,8.0,4921,None
+Tompkins,8.0,5081,None
+Ithaca (city),8.0,5021,City-Exception
+Ulster,8.0,5111,None
+Warren,7.0,5281,None
+Glens Falls (city),7.0,5211,City-Exception
+Washington,7.0,5311,None
+Wayne,8.0,5421,None
+*Westchester,8.375,5521,MCTD
+Mount Vernon (city),8.375,5561,City-Exception
+New Rochelle (city),8.375,5531,City-Exception
+White Plains (city),8.375,5541,City-Exception
+Yonkers (city),8.875,5511,City-Exception/MCTD
+Wyoming,8.0,5621,None
+Yates,8.0,5721,None
