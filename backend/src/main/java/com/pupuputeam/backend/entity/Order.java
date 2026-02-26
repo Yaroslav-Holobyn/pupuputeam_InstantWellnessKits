@@ -1,15 +1,10 @@
 package com.pupuputeam.backend.entity;
-import com.pupuputeam.backend.dto.JurisdictionSnapshotDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
+import org.locationtech.jts.geom.Point;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.List;
-
 @Entity
 @Table(name = "orders")
 @Getter
@@ -21,12 +16,15 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(name = "lon")
     @NotNull
     private Double longitude;
-    @Column
+    @Column(name = "lat")
     @NotNull
     private Double latitude;
+    @NotNull
+    @Column(columnDefinition = "geometry(Point, 4326)", name = "geom")
+    private Point point;
     @Column
     @NotNull
     private BigDecimal subtotal;
@@ -36,16 +34,27 @@ public class Order {
     @Column
     @NotNull
     private BigDecimal taxRate;
-    @Column(columnDefinition = "timestamptz", updatable = false)
+    @Column
+    @NotNull
+    private BigDecimal taxAmount;
+    @Column(columnDefinition = "timestamptz", updatable = false, name = "ts")
     @NotNull
     private Instant timestamp;
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    @NotNull
-    private List<JurisdictionSnapshotDto> jurisdictions;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
+    @Embedded
     @NotNull
     private TaxBreakDown breakDown;
+    @Column
+    @NotNull
+    private Boolean inNy;
+    @Column
+    @NotNull
+    private Boolean inMctd;
+    @Column
+    private String muniName;
+    @Column
+    private String muniType;
+    @Column
+    @NotNull
+    private String countyType;
+
 }

@@ -1,5 +1,6 @@
 package com.pupuputeam.backend.entity;
 
+import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Builder
+@Embeddable
 public class TaxBreakDown {
     @NotNull
     private BigDecimal stateRate;
