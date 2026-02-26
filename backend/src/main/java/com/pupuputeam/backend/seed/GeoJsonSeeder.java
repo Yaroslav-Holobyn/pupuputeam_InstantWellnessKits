@@ -52,9 +52,9 @@ public class GeoJsonSeeder {
         }
 
         String sql = """
-            INSERT INTO ny_county(county_name, county_fips, geom)
-            VALUES (?, ?, ST_SetSRID(ST_Multi(ST_MakeValid(ST_GeomFromGeoJSON(?))), 4326))
-            """;
+            INSERT INTO ny_county(county_name, geom)
+            VALUES (?, ST_SetSRID(ST_Multi(ST_MakeValid(ST_GeomFromGeoJSON(?))), 4326))
+        """;
 
         try (PreparedStatement ps = c.prepareStatement(sql);
              InputStream in = new ClassPathResource(classpathFile).getInputStream()) {
@@ -70,11 +70,9 @@ public class GeoJsonSeeder {
                 if (props == null || geom == null) continue;
 
                 String countyName = pick(props, "NAME", "county_name");
-                String countyFips = pick(props, "FIPS", "COUNTYFP", "county_fips");
-
                 ps.setString(1, countyName);
-                ps.setString(2, countyFips);
-                ps.setString(3, geom.toString());
+                ps.setString(2, geom.toString());
+
                 ps.addBatch();
 
                 batch++;
@@ -85,14 +83,15 @@ public class GeoJsonSeeder {
     }
 
     public void seedMunis(Connection c, String classpathFile) throws Exception {
+
         try (var st = c.createStatement()) {
             st.executeUpdate("TRUNCATE ny_muni;");
         }
 
         String sql = """
-            INSERT INTO ny_muni(muni_name, muni_type, county_name, fips_code, geom)
-            VALUES (?, ?, ?, ?, ST_SetSRID(ST_Multi(ST_MakeValid(ST_GeomFromGeoJSON(?))), 4326))
-            """;
+        INSERT INTO ny_muni(muni_name, muni_type, county_name, geom)
+        VALUES (?, ?, ?, ST_SetSRID(ST_Multi(ST_MakeValid(ST_GeomFromGeoJSON(?))), 4326))
+        """;
 
         try (PreparedStatement ps = c.prepareStatement(sql);
              InputStream in = new ClassPathResource(classpathFile).getInputStream()) {
@@ -110,13 +109,12 @@ public class GeoJsonSeeder {
                 String name = pick(props, "NAME", "MUNI_NAME", "muni_name");
                 String muniType = pick(props, "MUNI_TYPE", "TYPE", "muni_type");
                 String countyName = pick(props, "COUNTY", "county_name");
-                String fips = pick(props, "FIPS_CODE", "FIPS", "fips_code");
 
                 ps.setString(1, name);
                 ps.setString(2, muniType);
                 ps.setString(3, countyName);
-                ps.setString(4, fips);
-                ps.setString(5, geom.toString());
+                ps.setString(4, geom.toString());
+
                 ps.addBatch();
 
                 batch++;

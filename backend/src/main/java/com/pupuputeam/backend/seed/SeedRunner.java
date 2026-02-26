@@ -37,7 +37,7 @@ public class SeedRunner {
                 }
 
                 c.commit();
-                System.out.println("✅ SEED COMPLETED");
+                System.out.println("SEED COMPLETED");
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -58,8 +58,8 @@ public class SeedRunner {
         );
 
         try (PreparedStatement ps = c.prepareStatement("""
-            INSERT INTO ny_tax_rate(jurisdiction_type, jurisdiction_name, total_rate, reporting_code, special_zone, effective_from)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO ny_tax_rate(jurisdiction_type, jurisdiction_name, total_rate, special_zone, effective_from)
+            VALUES (?, ?, ?, ?, ?)
         """)) {
             try (Statement st = c.createStatement();
                  ResultSet rs = st.executeQuery("""
@@ -72,8 +72,7 @@ public class SeedRunner {
                 while (rs.next()) {
                     String jurisdictionRaw = rs.getString(1);
                     String taxRatePercent = rs.getString(2);
-                    String reportingCode = rs.getString(3);
-                    String specialZone = rs.getString(4);
+                    String specialZone = rs.getString(3);
 
                     String j = normalizeJurisdiction(jurisdictionRaw);
 
@@ -96,9 +95,8 @@ public class SeedRunner {
                     ps.setString(1, type);
                     ps.setString(2, name);
                     ps.setBigDecimal(3, rate);
-                    ps.setString(4, blankToNull(reportingCode));
-                    ps.setString(5, blankToNull(specialZone));
-                    ps.setDate(6, EFFECTIVE_FROM);
+                    ps.setString(4, blankToNull(specialZone));
+                    ps.setDate(5, EFFECTIVE_FROM);
                     ps.addBatch();
 
                     batch++;
