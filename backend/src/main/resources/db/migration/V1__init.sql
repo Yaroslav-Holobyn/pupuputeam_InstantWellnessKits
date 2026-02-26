@@ -64,3 +64,9 @@ CREATE TABLE seed_status (
     seeded_at TIMESTAMPTZ NOT NULL,
     notes TEXT
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    id BIGSERIAL PRIMARY KEY,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
+);
