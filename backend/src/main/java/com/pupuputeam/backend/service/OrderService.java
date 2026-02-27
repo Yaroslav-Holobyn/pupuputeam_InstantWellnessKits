@@ -16,6 +16,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.pupuputeam.backend.dto.response.OrderImportResponse;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 @Slf4j
 @Service
@@ -66,5 +71,25 @@ public class OrderService {
         Page<Order> orders= repository.findAll(spec, pageable);
         return orders.map(mapper::toResponse);
 
+    }
+
+    @Transactional
+    public OrderImportResponse importCsv(MultipartFile file) {
+        long start = System.currentTimeMillis();
+        try (InputStream is = file.getInputStream()) {
+            int imported = repository.importCsv(is);
+
+            long end = System.currentTimeMillis();
+            long duration = end - start;
+            log.info("CSV import finished. Rows: {}. Time: {} ms ({} sec)",
+                    imported,
+                    duration,
+                    duration / 1000.0
+            );
+
+            return new OrderImportResponse(imported);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Cannot read CSV file", e);
+        }
     }
 }

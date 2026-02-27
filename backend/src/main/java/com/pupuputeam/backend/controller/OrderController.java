@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import com.pupuputeam.backend.dto.response.OrderImportResponse;
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/orders")
@@ -20,6 +23,11 @@ public class OrderController {
     @PostMapping
     public OrderResponse create(@Valid @RequestBody OrderCreateRequest request) {
         return service.create(request);
+    }
+
+    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public OrderImportResponse importCsv(@RequestPart("file") MultipartFile file) {
+        return service.importCsv(file);
     }
 
     @GetMapping

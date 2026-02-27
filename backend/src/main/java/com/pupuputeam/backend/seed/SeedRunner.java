@@ -23,17 +23,24 @@ public class SeedRunner {
             try (Connection c = dataSource.getConnection()) {
                 c.setAutoCommit(false);
 
+                boolean geoChanged = false;
+
                 if (!isSeeded(c, 1)) {
                     GeoJsonSeeder geo = new GeoJsonSeeder();
                     geo.seedState(c, "seed/state.json");
                     geo.seedCounties(c, "seed/counties.json");
                     geo.seedMunis(c, "seed/cities_towns.json");
                     markSeeded(c, 1, "seed polygons: state+counties+munis");
+                    geoChanged = true;
                 }
 
                 if (!isSeeded(c, 2)) {
                     seedRatesFromCsv(c);
                     markSeeded(c, 2, "seed rates: ny_tax_rate from ny_pub718_rates.csv");
+                }
+
+                if (geoChanged) {
+                    refreshSubdividedTable(c);
                 }
 
                 c.commit();
@@ -108,6 +115,20 @@ public class SeedRunner {
 
         try (Statement st = c.createStatement()) {
             st.executeUpdate("TRUNCATE ny_tax_rate_raw;");
+        }
+    }
+
+    private void refreshSubdividedTable(Connection c) throws SQLException {
+        try (Statement st = c.createStatement()) {
+            System.out.println("Optimizing spatial data (ST_Subdivide)...");
+            st.executeUpdate("TRUNCATE ny_muni_subdivided");
+            st.executeUpdate("""
+                INSERT INTO ny_muni_subdivided (muni_name, muni_type, county_name, geom)
+                SELECT muni_name, muni_type, county_name, ST_Subdivide(geom, 255)
+                FROM ny_muni
+            """);
+            st.executeUpdate("ANALYZE ny_muni_subdivided");
+            System.out.println("Spatial optimization finished.");
         }
     }
 
