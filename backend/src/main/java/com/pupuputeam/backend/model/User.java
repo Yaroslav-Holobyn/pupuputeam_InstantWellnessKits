@@ -1,6 +1,5 @@
-package com.pupuputeam.backend.entity;
+package com.pupuputeam.backend.model;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -21,6 +21,8 @@ CREATE TABLE ny_muni (
     );
 CREATE INDEX ny_muni_geom_gist ON ny_muni USING GIST (geom);
 
+CREATE INDEX ny_muni_county_idx ON ny_muni(county_name);
+
 CREATE TABLE ny_tax_rate (
     jurisdiction_type TEXT NOT NULL,
     jurisdiction_name TEXT NOT NULL,
@@ -30,6 +32,14 @@ CREATE TABLE ny_tax_rate (
     PRIMARY KEY (jurisdiction_type, jurisdiction_name)
     );
 
+CREATE TABLE IF NOT EXISTS ny_muni_subdivided (
+    id SERIAL PRIMARY KEY,
+    muni_name TEXT,
+    muni_type TEXT,
+    county_name TEXT,
+    geom geometry(Geometry, 4326)
+    );
+CREATE INDEX IF NOT EXISTS ny_muni_sub_gist ON ny_muni_subdivided USING GIST (geom);
 
 CREATE TABLE orders (
     id BIGSERIAL PRIMARY KEY,
@@ -69,4 +79,11 @@ CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
+);
+
+CREATE TABLE ny_tax_rate_raw (
+    jurisdiction TEXT,
+    tax_rate TEXT,
+    reporting_code TEXT,
+    special_zone TEXT
 );
