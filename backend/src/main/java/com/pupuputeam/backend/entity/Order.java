@@ -16,45 +16,69 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "lon")
-    @NotNull
-    private Double longitude;
-    @Column(name = "lat")
-    @NotNull
-    private Double latitude;
-    @NotNull
-    @Column(columnDefinition = "geometry(Point, 4326)", name = "geom")
-    private Point point;
-    @Column
-    @NotNull
-    private BigDecimal subtotal;
-    @Column
-    @NotNull
-    private BigDecimal compositeTaxRate;
-    @Column
-    @NotNull
-    private BigDecimal taxRate;
-    @Column
-    @NotNull
-    private BigDecimal taxAmount;
-    @Column(columnDefinition = "timestamptz", updatable = false, name = "ts")
-    @NotNull
-    private Instant timestamp;
-    @Embedded
-    @NotNull
-    private TaxBreakDown breakDown;
-    @Column
-    @NotNull
-    private Boolean inNy;
-    @Column
-    @NotNull
-    private Boolean inMctd;
-    @Column
-    private String muniName;
-    @Column
-    private String muniType;
-    @Column
-    @NotNull
-    private String countyType;
 
+    @NotNull
+    @Column(name = "ts", columnDefinition = "timestamptz", updatable = false)
+    private Instant timestamp;
+
+    @NotNull
+    @Column(name = "subtotal", precision = 12, scale = 2)
+    private BigDecimal subtotal;
+
+    @NotNull
+    @Column(name = "lat")
+    private Double latitude;
+
+    @NotNull
+    @Column(name = "lon")
+    private Double longitude;
+
+    @NotNull
+    @Column(name = "geom", columnDefinition = "geometry(Point, 4326)")
+    private Point point;
+
+    @NotNull
+    @Column(name = "in_ny")
+    private Boolean inNy;
+
+    @NotNull
+    @Column(name = "in_mctd")
+    private Boolean inMctd;
+
+    @Column(name = "county_name")
+    private String countyName;
+
+    @Column(name = "muni_name")
+    private String muniName;
+
+    @Column(name = "muni_type")
+    private String muniType;
+
+    @NotNull
+    @Column(name = "state_rate", precision = 8, scale = 5)
+    private BigDecimal stateRate;
+
+    @NotNull
+    @Column(name = "county_rate", precision = 8, scale = 5)
+    private BigDecimal countyRate;
+
+    @NotNull
+    @Column(name = "city_rate", precision = 8, scale = 5)
+    private BigDecimal cityRate;
+
+    @NotNull
+    @Column(name = "special_rate", precision = 8, scale = 5)
+    private BigDecimal specialRate;
+
+    @NotNull
+    @Column(name = "composite_tax_rate", precision = 8, scale = 5)
+    private BigDecimal compositeTaxRate;
+
+    @NotNull
+    @Column(name = "tax_amount", precision = 12, scale = 2)
+    private BigDecimal taxAmount;
+
+    @NotNull
+    @Column(name = "total_amount", precision = 12, scale = 2)
+    private BigDecimal totalAmount;
 }

@@ -1,0 +1,10 @@
+.idea/
+*.iml
+
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/dictionaries
+.idea/shelf/
+
+*.log
+tmp/
