@@ -9,25 +9,25 @@ import com.pupuputeam.backend.model.Order;
 import com.pupuputeam.backend.model.TaxBreakdown;
 import com.pupuputeam.backend.repository.OrderRepository;
 import com.pupuputeam.backend.repository.specification.OrderSpecifications;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class OrderService {
 
     private final SpatialResolverService spatial;
     private final TaxCalculationService taxService;
     private final OrderRepository repository;
     private final OrderMapper mapper;
-
+    @Transactional
     public OrderResponse create(OrderCreateRequest request) {
 
         JurisdictionSnapshot snapshot =
