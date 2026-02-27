@@ -1,15 +1,20 @@
 package com.pupuputeam.backend.service;
 
 import com.pupuputeam.backend.dto.request.OrderCreateRequest;
+import com.pupuputeam.backend.dto.request.OrderFilterDto;
 import com.pupuputeam.backend.dto.response.OrderResponse;
 import com.pupuputeam.backend.mapper.OrderMapper;
 import com.pupuputeam.backend.model.JurisdictionSnapshot;
 import com.pupuputeam.backend.model.Order;
 import com.pupuputeam.backend.model.TaxBreakdown;
 import com.pupuputeam.backend.repository.OrderRepository;
+import com.pupuputeam.backend.repository.specification.OrderSpecifications;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -48,5 +53,18 @@ public class OrderService {
         );
 
         return mapper.toResponse(order);
+    }
+    public Page<OrderResponse> getFilteredOrders(OrderFilterDto filters, Pageable pageable) {
+
+        Specification<Order> spec = Specification
+                .where(OrderSpecifications.amountInRange(filters.minAmount(), filters.maxAmount()))
+                .and(OrderSpecifications.compositeTaxRateInRange(filters.minTaxRate(), filters.maxTaxRate()))
+                .and(OrderSpecifications.timeBetween(filters.startTime(), filters.endTime()))
+                .and(OrderSpecifications.cityNameEquals(filters.cityName()))
+                .and(OrderSpecifications.countyNameEquals(filters.countyName()))
+                .and(OrderSpecifications.muniNameEquals(filters.muniName()));
+        Page<Order> orders= repository.findAll(spec, pageable);
+        return orders.map(mapper::toResponse);
+
     }
 }
