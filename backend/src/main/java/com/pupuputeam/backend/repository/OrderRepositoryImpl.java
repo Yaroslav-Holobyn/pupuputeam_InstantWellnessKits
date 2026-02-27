@@ -14,7 +14,7 @@ import java.time.Instant;
 
 @Repository
 @RequiredArgsConstructor
-public class OrderJdbcRepository implements OrderRepository {
+public class OrderRepositoryImpl implements CustomOrderRepository {
 
     private final JdbcTemplate jdbc;
 
