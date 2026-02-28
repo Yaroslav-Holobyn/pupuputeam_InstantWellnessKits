@@ -33,10 +33,10 @@
     The system will automatically download images, build the backend (Maven), compile the frontend (Vite), and initialize the database.  
 
 ## 🌐 Service Access ## 
-Service________URL_External____________Port  
-Frontend_______http://localhost:5173____5173  
-Backend API____http://localhost:8080____8080  
-Database_______localhost________________5433  
+Service________URL_External____________ Port  
+Frontend_______http://localhost:5173 ____ 5173  
+Backend API____http://localhost:8080 ____ 8080  
+Database_______localhost________________ 5433  
 
 ## 🔐 Credentials ## 
 Use these default credentials to access the administrative panel:  
