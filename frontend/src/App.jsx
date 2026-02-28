@@ -28,12 +28,10 @@ function App() {
 
                         <Routes>
                             <Route path="/" element={<Login/>}/>
-                            <Route element={<PrivateRoute />}>
                                 <Route element={<MainLayout />}>
                                     <Route path="/orders" element={<OrdersPage />} />
                                     <Route path="/orders/create" element={<CreateOrderPage />} />
                                 </Route>
-                            </Route>
 
                         </Routes>
 
