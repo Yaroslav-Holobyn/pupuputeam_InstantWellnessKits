@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from "react";
 import OrderService from "../services/impl/OrderService";
 
+const convertNyToUtcIso = (nyDateString) => {
+    if (!nyDateString) return null;
+    const [datePart, timePart] = nyDateString.split('T');
+    const [year, month, day] = datePart.split('-');
+    const [hour, minute] = timePart.split(':');
+
+    const assumedUtcTime = Date.UTC(year, month - 1, day, hour, minute);
+    const dateObj = new Date(assumedUtcTime);
+
+    const nyTimeStr = dateObj.toLocaleString('en-US', { timeZone: 'America/New_York' });
+    const utcTimeStr = dateObj.toLocaleString('en-US', { timeZone: 'UTC' });
+
+    const offsetMs = new Date(utcTimeStr).getTime() - new Date(nyTimeStr).getTime();
+    return new Date(assumedUtcTime + offsetMs).toISOString();
+};
+
 const OrdersPage = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -53,11 +69,12 @@ const OrdersPage = () => {
 
         const processedFilters = { ...filterInput };
 
+        // Використовуємо нову функцію конвертації замість new Date().toISOString()
         if (processedFilters.startTime) {
-            processedFilters.startTime = new Date(processedFilters.startTime).toISOString();
+            processedFilters.startTime = convertNyToUtcIso(processedFilters.startTime);
         }
         if (processedFilters.endTime) {
-            processedFilters.endTime = new Date(processedFilters.endTime).toISOString();
+            processedFilters.endTime = convertNyToUtcIso(processedFilters.endTime);
         }
 
         setAppliedFilters(processedFilters);
@@ -103,11 +120,11 @@ const OrdersPage = () => {
                         </div>
 
                         <div style={styles.inputGroupFull}>
-                            <label style={styles.label}>From (Date/Time)</label>
+                            <label style={styles.label}>From (NY Time)</label>
                             <input type="datetime-local" name="startTime" value={filterInput.startTime} onChange={handleFilterChange} style={styles.input} />
                         </div>
                         <div style={styles.inputGroupFull}>
-                            <label style={styles.label}>To (Date/Time)</label>
+                            <label style={styles.label}>To (NY Time)</label>
                             <input type="datetime-local" name="endTime" value={filterInput.endTime} onChange={handleFilterChange} style={styles.input} />
                         </div>
 
@@ -149,7 +166,16 @@ const OrdersPage = () => {
                         <div key={order.id} style={styles.orderCard}>
                             <div style={styles.cardHeader}>
                                 <span style={styles.orderId}>#{order.id}</span>
-                                <span style={styles.orderDate}>{new Date(order.ts).toLocaleString()}</span>
+                                <span style={styles.orderDate}>
+                                    {new Date(order.ts).toLocaleString('en-US', {
+                                        timeZone: 'America/New_York',
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    })}
+                                </span>
                             </div>
 
                             <div style={styles.orderAmount}>
@@ -239,6 +265,9 @@ const OrdersPage = () => {
     );
 };
 
+// ... твій об'єкт styles (залишається без змін) ...
+// Я не дублюю об'єкт стилів, щоб не роздувати відповідь,
+// просто встав його сюди зі свого попереднього файлу.
 const styles = {
     container: {
         width: "100%",
