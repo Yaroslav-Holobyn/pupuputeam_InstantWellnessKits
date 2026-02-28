@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public record OrderFilterDto(
+        @PositiveOrZero(message = "min amount cannot be negative")
         BigDecimal minAmount,
         @PositiveOrZero(message = "max amount cannot be negative")
         BigDecimal maxAmount,
@@ -17,6 +18,8 @@ public record OrderFilterDto(
         Instant endTime,
         String countyName,
         String muniName,
+        @PositiveOrZero(message = "min tax rate cannot be negative")
+        @DecimalMax(value = "1.0",message = "tax rate cannot be above than 100%")
         BigDecimal minTaxRate,
         @PositiveOrZero(message = "max tax rate cannot be negative")
         @DecimalMax(value = "1.0",message = "tax rate cannot be above than 100%")
