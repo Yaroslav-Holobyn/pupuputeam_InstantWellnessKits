@@ -10,5 +10,32 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+
+  backend:
+    build: ./backend
+    depends_on:
+      - db
+    environment:
+
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/instant_wellness
+      SPRING_DATASOURCE_USERNAME: app
+      SPRING_DATASOURCE_PASSWORD: app
+
+      SPRING_FLYWAY_URL: jdbc:postgresql://db:5432/instant_wellness
+      SPRING_FLYWAY_USER: app
+      SPRING_FLYWAY_PASSWORD: app
+
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+    ports:
+      - "8080:8080"
+
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
 volumes:
   pgdata:
