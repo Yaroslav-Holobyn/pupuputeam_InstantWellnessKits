@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         Cookies.remove("accessToken");
         setIsAuthenticated(false)
-        window.location.href = "/login";
+        window.location.href = "/";
     };
 
     return (

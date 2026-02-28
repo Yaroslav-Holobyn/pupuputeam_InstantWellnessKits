@@ -32,9 +32,9 @@ client.interceptors.response.use(
             Cookies.remove("accessToken");
 
             if (history.navigate) {
-                history.navigate("/login");
+                history.navigate("/");
             } else {
-                window.location.href = "/login";
+                window.location.href = "/";
             }
         }
 
