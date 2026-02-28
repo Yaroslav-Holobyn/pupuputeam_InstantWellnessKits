@@ -3,6 +3,10 @@ import {useEffect} from "react";
 import {AuthProvider} from "./security/AuthContext.jsx";
 import Login from "./pages/Login.jsx";
 import OrdersPage from "./pages/OrdersPage.jsx";
+import CreateOrderPage from "./pages/CreateOrderPage.jsx";
+import MobileNav from "./components/MobileNav.jsx";
+import PrivateRoute from "./security/PrivateRoute.jsx";
+import MainLayout from "./components/MainLayout.jsx";
 //
 
 const InitNavigation = ({children}) => {
@@ -20,39 +24,20 @@ function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
-                    <InitNavigation>
-                        {/*<Toaster position="top-right"/>*/}
+                <InitNavigation>
 
                         <Routes>
                             <Route path="/" element={<Login/>}/>
-                            <Route path="/orders" element={<OrdersPage/>}/>
+                            <Route element={<PrivateRoute />}>
+                                <Route element={<MainLayout />}>
+                                    <Route path="/orders" element={<OrdersPage />} />
+                                    <Route path="/orders/create" element={<CreateOrderPage />} />
+                                </Route>
+                            </Route>
 
-
-
-                            {/*    <Route path="/login" element={<Login/>}/>*/}
-
-                        {/*    <Route element={<MainLayout/>}>*/}
-                        {/*        <Route element={<PrivateRoute/>}>*/}
-                        {/*            <Route path="/books" element={<BooksPage/>}/>*/}
-                        {/*            <Route path="/books/:id" element={<BookPage />} />*/}
-                        {/*            <Route path="/profile" element={<Profile/>}/>*/}
-                        {/*            <Route path="/cart" element={<CartPage/>}/>*/}
-                        {/*            <Route path="/orders" element={<MyOrdersPage />} />*/}
-
-                        {/*        </Route>*/}
-
-                        {/*        <Route element={<PrivateRoute onlyEmployee={true}/>}>*/}
-                        {/*            <Route path="/books/:id/edit" element={<EditBookPage />} />*/}
-                        {/*            <Route path="/admin" element={<AdminLayout />}>*/}
-                        {/*                <Route path="users" element={<AdminUsers />} />*/}
-                        {/*                <Route path="books" element={<AdminBooks />} />*/}
-                        {/*                <Route path="orders" element={<AdminOrders />}/>*/}
-                        {/*            </Route>*/}
-                        {/*        </Route>*/}
-                        {/*    </Route>*/}
-                        {/*    <Route path="*" element={<NotFound />} />*/}
                         </Routes>
-                    </InitNavigation>
+
+                </InitNavigation>
             </AuthProvider>
         </BrowserRouter>
     )
