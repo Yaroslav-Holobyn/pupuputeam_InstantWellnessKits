@@ -3,6 +3,7 @@ package com.pupuputeam.backend.service;
 import com.pupuputeam.backend.dto.request.OrderCreateRequest;
 import com.pupuputeam.backend.dto.request.OrderFilterDto;
 import com.pupuputeam.backend.dto.response.OrderResponse;
+import com.pupuputeam.backend.exception.InvalidLocationException;
 import com.pupuputeam.backend.mapper.OrderMapper;
 import com.pupuputeam.backend.model.JurisdictionSnapshot;
 import com.pupuputeam.backend.model.Order;
@@ -47,6 +48,10 @@ public class OrderService {
                 snapshot.getMuniType(),
                 snapshot.getCityTotalRate()
         );
+
+        if (!snapshot.isInNy()) throw new InvalidLocationException(
+                "Order coordinates are outside New York State and cannot be saved."
+            );
 
         TaxBreakdown breakdown =
                 taxService.calculate(snapshot);
