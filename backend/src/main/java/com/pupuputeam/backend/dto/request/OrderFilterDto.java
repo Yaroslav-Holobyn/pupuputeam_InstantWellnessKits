@@ -8,7 +8,6 @@ public record OrderFilterDto(
         BigDecimal maxAmount,
         Instant startTime,
         Instant endTime,
-        String cityName,
         String countyName,
         String muniName,
         BigDecimal minTaxRate,
