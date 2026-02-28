@@ -36,7 +36,7 @@
 Service________URL_External  
 Frontend_______http://localhost:5173   
 Backend API____http://localhost:8080  
-Database_______localhost   
+Database_______localhost 5433   
 
 ## 🔐 Credentials ## 
 Use these default credentials to access the administrative panel:  
