@@ -18,6 +18,7 @@ backend/backend.iml
 
 # --- Frontend (Node/React/Vite) ---
 node_modules/
+package-lock.json
 frontend/node_modules/
 
 dist/
