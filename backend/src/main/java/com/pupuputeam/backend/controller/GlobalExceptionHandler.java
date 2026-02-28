@@ -49,6 +49,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
+    @ExceptionHandler(InvalidLocationException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidLocationException(InvalidLocationException ex) {
+        ErrorResponse response = new ErrorResponse("Invalid location", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
         Map<String, String> response = new HashMap<>();
