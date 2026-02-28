@@ -1,8 +1,9 @@
 package com.pupuputeam.backend.service;
 
-import com.pupuputeam.backend.exception.AuthException;
 import com.pupuputeam.backend.model.User;
+import com.pupuputeam.backend.exception.AuthException;
 import com.pupuputeam.backend.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
