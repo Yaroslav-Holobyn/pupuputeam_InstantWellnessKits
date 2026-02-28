@@ -1,6 +1,6 @@
 package com.pupuputeam.backend.repository;
 
-import com.pupuputeam.backend.entity.User;
+import com.pupuputeam.backend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
