@@ -1,6 +1,8 @@
 package com.pupuputeam.backend.controller;
 
+import com.pupuputeam.backend.dto.response.ErrorResponse;
 import com.pupuputeam.backend.exception.AuthException;
+import com.pupuputeam.backend.exception.InvalidLocationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -17,35 +19,21 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Map<String, String>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", "Invalid Parameter Type");
-        response.put("message", "Incorrect format to '" + ex.getName() + "'. Expected type: " + ex.getRequiredType().getSimpleName());
-
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        ErrorResponse response = new ErrorResponse("Invalid Parameter Type",
+                "Incorrect format to '" + ex.getName() + "'. Expected type: " + ex.getRequiredType().getSimpleName());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<Map<String, String>> handleBindException(BindException ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", "Data Binding Error");
-        response.put("message", "Data binding error. Check the parameters you sent.");
-
-        if (ex.getFieldError() != null) {
-            response.put("failed_field", ex.getFieldError().getField());
-            response.put("reason", ex.getFieldError().getDefaultMessage());
-        }
-
+    public ResponseEntity<ErrorResponse> handleBindException(BindException ex) {
+        ErrorResponse response = new ErrorResponse("Data binding error","Data binding error. Check the parameters you sent." )
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
     @ExceptionHandler(AuthException.class)
-    public ResponseEntity<Map<String, String>> handleAuthErrors(AuthException ex) {
-        System.out.println("Auth Error: " + ex.getMessage());
-        Map<String, String> response = new HashMap<>();
-        response.put("error", "Unauthorized");
-        response.put("message", "Wrong email or password");
-
+    public ResponseEntity<ErrorResponse> handleAuthErrors(AuthException ex) {
+        ErrorResponse response = new ErrorResponse("Unauthorized", "Wrong email or password");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
@@ -55,10 +43,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", "Internal Server Error");
-        response.put("message", ex.getMessage());
+    public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
+        ErrorResponse response = new ErrorResponse("Internal Server Error", ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }
