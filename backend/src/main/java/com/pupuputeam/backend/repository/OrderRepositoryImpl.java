@@ -274,6 +274,7 @@ public class OrderRepositoryImpl implements CustomOrderRepository {
               f.tax_amount,
               f.total_amount
             FROM final_calc f
+            WHERE f.in_ny = true
             ORDER BY f.src_id
         """;
 
