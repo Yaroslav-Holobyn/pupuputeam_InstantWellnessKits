@@ -65,7 +65,6 @@ public class OrderService {
                 .where(OrderSpecifications.amountInRange(filters.minAmount(), filters.maxAmount()))
                 .and(OrderSpecifications.compositeTaxRateInRange(filters.minTaxRate(), filters.maxTaxRate()))
                 .and(OrderSpecifications.timeBetween(filters.startTime(), filters.endTime()))
-                .and(OrderSpecifications.cityNameEquals(filters.cityName()))
                 .and(OrderSpecifications.countyNameEquals(filters.countyName()))
                 .and(OrderSpecifications.muniNameEquals(filters.muniName()));
         Page<Order> orders= repository.findAll(spec, pageable);

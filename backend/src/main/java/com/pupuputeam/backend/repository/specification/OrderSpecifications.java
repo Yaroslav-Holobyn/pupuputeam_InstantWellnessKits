@@ -33,14 +33,6 @@ public class OrderSpecifications {
             return predicates.isEmpty() ? null : criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
-    public static Specification<Order> cityNameEquals(String cityName) {
-        return (root, query, criteriaBuilder) ->{
-            if (cityName == null || cityName.isBlank()) {
-                return null;
-            }
-            return criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), "%" + cityName.toLowerCase() + "%");
-        };
-    }
     public static Specification<Order> countyNameEquals(String countyName) {
         return (root, query, criteriaBuilder) ->{
             if (countyName == null || countyName.isBlank()) {
